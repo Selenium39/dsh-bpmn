@@ -1,6 +1,6 @@
 {
 	"name": "dsh-bpmn",
-	"version": "0.1.0-alpha.1",
+	"version": "0.1.0",
 	"description": "DeepSeek Harness bundle plugin: BPMN 2.0 visual modeler (bpmn-js) with a full workbench panel and read-only side preview.",
 	"repository": {
 		"type": "git",

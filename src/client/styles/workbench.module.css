@@ -1,0 +1,179 @@
+/*
+ * Workbench layout styles. Colors reference DSH theme tokens with literal
+ * fallbacks so the panel stays legible before token alignment (handoff-9).
+ */
+
+.panel {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: min(72vw, 960px);
+	display: flex;
+	flex-direction: column;
+	background: var(--dsw-bg-elevated, rgba(30, 32, 38, 0.98));
+	color: var(--dsw-fg, #e7e9ee);
+	box-shadow: -8px 0 24px rgba(0, 0, 0, 0.25);
+	z-index: 40;
+}
+
+.fullscreen {
+	width: 100vw;
+}
+
+.header {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 8px 12px;
+	border-bottom: 1px solid var(--dsw-border, rgba(255, 255, 255, 0.08));
+}
+
+.header button {
+	font: inherit;
+	font-size: var(--dsh-content-font-size, 14px);
+	color: inherit;
+	background: transparent;
+	border: 1px solid var(--dsw-border, rgba(255, 255, 255, 0.14));
+	border-radius: 6px;
+	padding: 3px 10px;
+	cursor: pointer;
+}
+
+.header button:hover:not(:disabled) {
+	background: rgba(255, 255, 255, 0.06);
+}
+
+.header button:disabled {
+	opacity: 0.4;
+	cursor: default;
+}
+
+.title {
+	font-weight: 600;
+	margin-right: 8px;
+}
+
+.body {
+	display: flex;
+	flex: 1;
+	min-height: 0;
+}
+
+.rail {
+	width: 220px;
+	overflow-y: auto;
+	border-right: 1px solid var(--dsw-border, rgba(255, 255, 255, 0.08));
+	padding: 8px;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.fileItem {
+	font: inherit;
+	font-size: var(--dsh-content-font-size, 13px);
+	text-align: left;
+	color: inherit;
+	background: transparent;
+	border: none;
+	border-radius: 6px;
+	padding: 5px 8px;
+	cursor: pointer;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.fileItem:hover {
+	background: rgba(255, 255, 255, 0.06);
+}
+
+.fileActive {
+	background: rgba(90, 140, 255, 0.18);
+}
+
+.canvasArea {
+	position: relative;
+	flex: 1;
+	min-width: 0;
+	display: flex;
+}
+
+/* BpmnModeler root: fills the canvas area, splits canvas vs properties. */
+.modelerWrap {
+	display: flex;
+	flex: 1;
+	min-width: 0;
+	min-height: 0;
+}
+
+.modelerPane {
+	position: relative;
+	flex: 1;
+	min-width: 0;
+}
+
+.modelerPane :global(.djs-container) {
+	width: 100%;
+	height: 100%;
+}
+
+/*
+ * bpmn-js-properties-panel host. The panel ships light-theme `--bio-*` tokens
+ * on `.bio-theme-parent`; re-declare the core set here for the dark shell.
+ */
+.propertiesPane {
+	width: 300px;
+	flex: none;
+	min-height: 0;
+	overflow-y: auto;
+	border-left: 1px solid var(--dsw-border, rgba(255, 255, 255, 0.08));
+}
+
+.propertiesPane :global(.bio-theme-parent),
+.propertiesPane :global(.bpp-properties-panel) {
+	--bio-surface: hsl(225, 12%, 14%);
+	--bio-surface-overlay: hsl(225, 12%, 18%);
+	--bio-surface-subtle: hsl(225, 10%, 17%);
+	--bio-surface-medium: hsl(225, 10%, 20%);
+	--bio-surface-strong: hsl(225, 10%, 26%);
+	--bio-text: hsl(225, 15%, 92%);
+	--bio-text-subtle: hsl(225, 10%, 72%);
+	--bio-text-subtlest: hsl(225, 10%, 55%);
+	--bio-border: hsl(225, 10%, 34%);
+	--bio-border-subtle: hsl(225, 10%, 26%);
+	--bio-border-disabled: hsl(225, 10%, 22%);
+	--bio-border-input: hsl(225, 10%, 32%);
+}
+
+.hint {
+	margin: auto;
+	font-size: var(--dsh-content-font-size, 13px);
+	opacity: 0.6;
+}
+
+.statusBar {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 5px 12px;
+	border-top: 1px solid var(--dsw-border, rgba(255, 255, 255, 0.08));
+	font-size: var(--dsh-content-font-size, 12px);
+	opacity: 0.85;
+	min-height: 14px;
+}
+
+.path {
+	max-width: 40%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	direction: rtl;
+	text-align: left;
+	opacity: 0.6;
+}
+
+.error {
+	color: #ff7a7a;
+}

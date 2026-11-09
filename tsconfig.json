@@ -1,0 +1,26 @@
+{
+	"compilerOptions": {
+		"target": "ES2022",
+		"lib": ["ES2022", "DOM", "DOM.Iterable"],
+		"module": "esnext",
+		"moduleResolution": "bundler",
+		"jsx": "react-jsx",
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedIndexedAccess": true,
+		"exactOptionalPropertyTypes": false,
+		"useDefineForClassFields": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"isolatedModules": true,
+		"verbatimModuleSyntax": true,
+		"declaration": true,
+		"declarationDir": "lib/types",
+		"outDir": "lib",
+		"rootDir": "src",
+		"tsBuildInfoFile": "lib/.tsbuildinfo"
+	},
+	"include": ["src"]
+}

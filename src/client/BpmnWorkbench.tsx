@@ -205,7 +205,7 @@ export function BpmnWorkbench({
 				{state.error !== null ? (
 					<span className={classes.error}>{state.error}</span>
 				) : null}
-				{active !== null && active.dirty ? "未保存" : null}
+				{active?.dirty ? "未保存" : null}
 				{active !== null && !active.dirty ? "已保存" : null}
 			</footer>
 		</div>

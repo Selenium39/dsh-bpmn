@@ -106,3 +106,40 @@ describe("scan state", () => {
 		expect(instance.getSnapshot().loading).toBe(false);
 	});
 });
+
+describe("side preview (v0.2)", () => {
+	it("opens in the loading state and fills in via setPreviewXml", () => {
+		const { instance } = setup();
+		instance.actions.openPreview("p.bpmn");
+		let s = instance.getSnapshot();
+		expect(s.previewPath).toBe("p.bpmn");
+		expect(s.previewXml).toBeNull();
+		expect(s.previewError).toBeNull();
+		instance.actions.setPreviewXml("p.bpmn", "<x/>");
+		s = instance.getSnapshot();
+		expect(s.previewXml).toBe("<x/>");
+	});
+
+	it("stale-path writes are ignored (superseded previews)", () => {
+		const { instance } = setup();
+		instance.actions.openPreview("a.bpmn");
+		instance.actions.openPreview("b.bpmn");
+		instance.actions.setPreviewXml("a.bpmn", "<stale/>");
+		expect(instance.getSnapshot().previewXml).toBeNull();
+		instance.actions.setPreviewError("a.bpmn", "stale failure");
+		expect(instance.getSnapshot().previewError).toBeNull();
+	});
+
+	it("setPreviewError clears the xml and closePreview resets everything", () => {
+		const { instance } = setup();
+		instance.actions.openPreview("p.bpmn");
+		instance.actions.setPreviewError("p.bpmn", "boom");
+		expect(instance.getSnapshot().previewXml).toBeNull();
+		expect(instance.getSnapshot().previewError).toBe("boom");
+		instance.actions.closePreview();
+		const s = instance.getSnapshot();
+		expect(s.previewPath).toBeNull();
+		expect(s.previewXml).toBeNull();
+		expect(s.previewError).toBeNull();
+	});
+});

@@ -157,12 +157,14 @@ channel `/bpmn-modeler`，`authority: 'loopback'`，信封 `{ ok: true, value } 
 - [ ] `pnpm run lint` 收敛剩余 1 个 warning（BpmnWorkbench.tsx useOptionalChain，unsafe fix，改 `active?.dirty` 即可）；`test` 用例补齐（vitest + @testing-library 已在 devDeps）
 - [ ] README 安装命令替换真实 npm 包名/仓库地址（package.json 里 USERNAME 占位）
 
-### v0.2（侧边预览）
+### v0.2（侧边预览）—— ✅ 2026-11-09 完成并发布 0.2.0
 
-- [ ] `BpmnViewer.tsx`（bpmn-js `Viewer` 只读封装，复用 rpc-types）
-- [ ] 会话内 `.bpmn` 文件链接拦截（对照 artifact-viewer 对 `.fileLink`/产物 chips/Markdown 链接的拦截手法）
-- [ ] 预览浮层 + "在建模器中打开"（写 store.activePath + openPanel）
-- [ ] handoff-7：若 main keyed panel 可用，工作台迁移过去
+- [x] `BpmnViewer.tsx`（bpmn-js `NavigatedViewer` 只读封装，支持缩放平移，复用 rpc-types）
+- [x] 会话内 `.bpmn` 文件链接拦截：capture 阶段全局监听，覆盖 artifact-viewer 同款四类表面（产物 chips `[data-produced-files-row] button[title]`、`.fileMention` button[title]、Markdown `<a href>`（跳过 http/https/ftp/mailto/data/blob、剥 `file://`）、行内 `<code>` 绝对路径）；绝对路径按 projectPath 前缀剥成工作区相对路径，区外文件出友好错误
+- [x] 预览浮层（`shell.overlay` 常驻 entry `dsh-bpmn-preview`：previewPath 为 null 时渲染 null 但保持挂载，拦截监听器全程存活）+ Esc/遮罩按钮/关闭按钮三种关闭 + "在建模器中打开"（openFile + openPanel + closePreview）
+- [x] 手测通过：相对路径拦截→渲染、打开到建模器接力、工作区外错误提示、Esc 关闭
+- [ ] handoff-7：main keyed panel 迁移**未做**——shell.overlay 双 entry 形态实测够用，keyed 注册仍无实证，保留为可选优化
+- 踩坑：`BpmnViewer` import 成功会回调 `onError(null)`（清除语义），预览侧必须忽略 null 否则成功导入被当失败覆盖成错误态
 
 ### v0.3+
 

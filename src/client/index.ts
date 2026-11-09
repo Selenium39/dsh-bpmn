@@ -1,9 +1,11 @@
 /**
  * Browser half of the dsh-bpmn plugin.
  *
- * Registers a sidebar footer toggle and the BPMN workbench overlay panel
+ * Registers a sidebar footer toggle, the BPMN workbench overlay panel
  * (v0.1 shape: shell.overlay + in-panel fullscreen; migration to a `main`
- * keyed global panel is tracked in docs/HANDOFF.md as handoff-7).
+ * keyed global panel is tracked in docs/HANDOFF.md as handoff-7), and the
+ * v0.2 always-mounted side preview that intercepts in-conversation `.bpmn`
+ * references.
  *
  * @module dsh-bpmn/client
  */
@@ -14,6 +16,7 @@ import type {} from "@deepseek-ai/dsh-client-locale/client";
 import type { ClientContext } from "@deepseek-ai/dsh-client-runtime/client";
 import type {} from "@deepseek-ai/dsh-client-ui-layout/client";
 import type {} from "@deepseek-ai/dsh-client-ui-sidebar/client";
+import { BpmnPreview } from "./BpmnPreview.js";
 import { BpmnToggle } from "./BpmnToggle.js";
 import { BpmnWorkbench } from "./BpmnWorkbench.js";
 import { type BpmnLocaleKey, en, NS, zh } from "./locales.js";
@@ -112,6 +115,24 @@ export function apply(ctx: ClientContext): void {
 				}),
 			},
 			BpmnWorkbench,
+		),
+	);
+
+	// Always-mounted side-preview entry: renders null while closed, but keeps
+	// the in-conversation .bpmn link interception alive for the whole session.
+	ctx.slots.inject("shell.overlay", () =>
+		ctx.slots.register(
+			{
+				name: "shell.overlay",
+				id: "dsh-bpmn-preview",
+				order: 61,
+				locale: NS,
+				store,
+				inject: (): BpmnWorkbenchFace => ({
+					rpc: bpmnRpc,
+				}),
+			},
+			BpmnPreview,
 		),
 	);
 }

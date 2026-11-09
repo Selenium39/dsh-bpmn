@@ -43,6 +43,15 @@ export interface BpmnState {
 	loading: boolean;
 	/** Last error message surfaced to the status bar. */
 	error: string | null;
+	/** Workspace-relative path shown in the side preview, when open. */
+	previewPath: string | null;
+	/**
+	 * Baseline XML backing the preview (v0.2 previews are read-only); null
+	 * while the read is in flight or after a failure.
+	 */
+	previewXml: string | null;
+	/** Load failure for the current preview, when open. */
+	previewError: string | null;
 }
 
 const INITIAL: BpmnState = {
@@ -53,6 +62,9 @@ const INITIAL: BpmnState = {
 	activePath: null,
 	loading: false,
 	error: null,
+	previewPath: null,
+	previewXml: null,
+	previewError: null,
 };
 
 /**
@@ -108,6 +120,26 @@ const actions = {
 	},
 	setActive: (d: BpmnState, path: string) => {
 		d.activePath = path;
+	},
+	openPreview: (d: BpmnState, path: string) => {
+		d.previewPath = path;
+		d.previewXml = null;
+		d.previewError = null;
+	},
+	setPreviewXml: (d: BpmnState, path: string, xml: string) => {
+		if (d.previewPath !== path) return;
+		d.previewXml = xml;
+		d.previewError = null;
+	},
+	setPreviewError: (d: BpmnState, path: string, message: string) => {
+		if (d.previewPath !== path) return;
+		d.previewXml = null;
+		d.previewError = message;
+	},
+	closePreview: (d: BpmnState) => {
+		d.previewPath = null;
+		d.previewXml = null;
+		d.previewError = null;
 	},
 } satisfies ActionsDecl<BpmnState>;
 
